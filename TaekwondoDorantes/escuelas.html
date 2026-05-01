@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestras Escuelas · Taekwondo Dorantes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul:      #1b2f6e;
+            --azul-dark: #111e47;
+            --rojo:      #cc1a1a;
+            --negro:     #111111;
+            --gris:      #f2f2f2;
+            --gris-borde:#ddd;
+            --blanco:    #ffffff;
+            --texto:     #333;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Source Sans 3',sans-serif; background:var(--gris); color:var(--texto); }
+
+        /* NAV */
+        nav { background:var(--negro); position:sticky; top:0; z-index:200; border-bottom:3px solid var(--rojo); }
+        nav ul { list-style:none; display:flex; justify-content:center; flex-wrap:wrap; }
+        nav a { display:block; text-decoration:none; color:rgba(255,255,255,0.78); font-family:'Teko',sans-serif; font-size:1.05rem; letter-spacing:1.8px; text-transform:uppercase; padding:15px 20px; border-right:1px solid rgba(255,255,255,0.07); transition:background 0.2s,color 0.2s; }
+        nav li:first-child a { border-left:1px solid rgba(255,255,255,0.07); background:var(--rojo); color:var(--blanco); }
+        nav a:hover { background:var(--rojo); color:var(--blanco); }
+
+        /* HERO */
+        .page-hero { background:var(--azul-dark); text-align:center; padding:48px 20px 40px; position:relative; overflow:hidden; }
+        .page-hero::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:3px; background:linear-gradient(90deg,var(--azul),var(--rojo),var(--azul)); background-size:300% 100%; animation:barra 5s linear infinite; }
+        @keyframes barra { 0%{background-position:0% 0} 100%{background-position:300% 0} }
+        .breadcrumb { font-size:0.82rem; color:rgba(255,255,255,0.4); margin-bottom:12px; letter-spacing:1px; }
+        .breadcrumb a { color:rgba(255,255,255,0.55); text-decoration:none; }
+        .breadcrumb a:hover { color:var(--blanco); }
+        .page-hero h1 { font-family:'Teko',sans-serif; font-size:clamp(2rem,5vw,3.4rem); font-weight:700; letter-spacing:4px; color:var(--blanco); text-transform:uppercase; }
+        .page-hero p { font-size:1rem; color:rgba(255,255,255,0.5); margin-top:10px; letter-spacing:1px; }
+
+        /* GRID */
+        .escuelas-grid { display:flex; flex-direction:column; gap:24px; max-width:960px; margin:48px auto; padding:0 24px; }
+
+        /* TARJETA */
+        .card {
+            background:var(--blanco);
+            border-radius:3px;
+            overflow:hidden;
+            border:1px solid var(--gris-borde);
+            box-shadow:0 2px 12px rgba(0,0,0,0.07);
+            display:flex;
+            flex-direction:column;
+            opacity:0;
+            transform:translateY(20px);
+            animation:card-in 0.5s ease forwards;
+            transition:transform 0.22s,box-shadow 0.22s;
+        }
+        .card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,0.11); }
+        .card:nth-child(1){animation-delay:0.05s} .card:nth-child(2){animation-delay:0.12s}
+        .card:nth-child(3){animation-delay:0.19s} .card:nth-child(4){animation-delay:0.26s}
+        .card:nth-child(5){animation-delay:0.33s} .card:nth-child(6){animation-delay:0.40s}
+        .card:nth-child(7){animation-delay:0.47s}
+        @keyframes card-in { to{opacity:1;transform:translateY(0)} }
+
+        .card-left { display:flex; flex-direction:column; border-left:5px solid var(--azul); }
+        .card.principal .card-left { border-left-color:var(--rojo); }
+
+        .card-body { padding:24px 24px 20px; flex:1; }
+
+        .card-municipio { font-family:'Teko',sans-serif; font-size:1.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--azul); line-height:1.1; margin-bottom:3px; }
+        .card.principal .card-municipio { color:var(--rojo); }
+        .card-estado { font-size:0.78rem; color:#999; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; }
+        .divider { height:1px; background:var(--gris-borde); margin-bottom:16px; }
+
+        .info-row { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+        .info-icon { font-size:1.05rem; flex-shrink:0; margin-top:2px; }
+        .info-text { font-size:0.96rem; color:var(--texto); line-height:1.5; }
+        .info-label { font-weight:600; color:var(--azul); font-size:0.76rem; letter-spacing:1px; text-transform:uppercase; display:block; margin-bottom:3px; }
+
+        .horarios-tabla { width:100%; border-collapse:collapse; }
+        .horarios-tabla td { padding:3px 0; font-size:0.93rem; }
+        .horarios-tabla td:first-child { color:#777; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; width:55%; }
+
+        .card-map { width:100%; height:130px; border:none; border-top:1px solid var(--gris-borde); display:block; }
+
+        /* ── CARRUSEL ── */
+        .carrusel {
+            position:relative;
+            width:100%;
+            background:#111;
+            overflow:hidden;
+        }
+        .carrusel-track {
+            display:flex;
+            transition:transform 0.4s ease;
+        }
+        .carrusel-track img {
+            flex-shrink:0;
+            width:100%;
+            height:auto;
+            display:block;
+            object-fit:contain;
+        }
+        .carrusel-btn {
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            background:rgba(0,0,0,0.45);
+            color:#fff;
+            border:none;
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            font-size:1.1rem;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            transition:background 0.2s;
+            z-index:10;
+            line-height:1;
+        }
+        .carrusel-btn:hover { background:rgba(204,26,26,0.85); }
+        .carrusel-btn.prev { left:8px; }
+        .carrusel-btn.next { right:8px; }
+        .carrusel-dots {
+            position:absolute;
+            bottom:8px;
+            left:50%;
+            transform:translateX(-50%);
+            display:flex;
+            gap:5px;
+            z-index:10;
+        }
+        .carrusel-dots span {
+            width:7px;
+            height:7px;
+            border-radius:50%;
+            background:rgba(255,255,255,0.5);
+            cursor:pointer;
+            transition:background 0.2s;
+        }
+        .carrusel-dots span.activo { background:#fff; }
+
+        /* FOOTER */
+        footer { background:var(--negro); text-align:center; padding:26px 20px; border-top:3px solid var(--azul); margin-top:16px; }
+        footer p { font-size:0.85rem; color:rgba(255,255,255,0.35); letter-spacing:1.5px; text-transform:uppercase; }
+
+        /* RESPONSIVE */
+        @media(max-width:700px){
+            nav a { font-size:0.88rem; padding:12px 12px; }
+            .escuelas-grid { padding:0 14px; margin:28px auto; }
+
+        }
+        @media(max-width:480px){ nav a { font-size:0.8rem; padding:10px 9px; } }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="escuelas.html">Nuestras Escuelas</a></li>
+        <li><a href="#">Torneos</a></li>
+        <li><a href="#">Exámenes Kup</a></li>
+        <li><a href="#">Exámenes Cintas Negras</a></li>
+        <li><a href="#">Más eventos</a></li>
+        <li><a href="index.html">Inicio</a></li>
+    </ul>
+</nav>
+
+<div class="page-hero">
+    <p class="breadcrumb"><a href="index.html">Inicio</a> &rsaquo; Nuestras Escuelas</p>
+    <h1>Nuestras Escuelas</h1>
+    <p>8 sedes en el estado de Guanajuato</p>
+</div>
+
+<div class="escuelas-grid">
+
+    <!-- ── San José Iturbide Centro — PRINCIPAL ── -->
+    <div class="card principal">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">San José Iturbide</div>
+                <div class="card-estado">Centro · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=San+José+Iturbide+Centro+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="sji2.jpeg" alt="San José Iturbide Centro foto 1">
+                <img src="sji1.jpg" alt="San José Iturbide Centro foto 2">
+                <img src="sji_centro_foto3.jpg" alt="San José Iturbide Centro foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── San José Iturbide Centro Impulso Zumar — PRINCIPAL ── -->
+    <div class="card principal">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">San José Iturbide</div>
+                <div class="card-estado">Centro Impulso Zumar · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Impulso+Zumar+San+José+Iturbide+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="sji.jpg" alt="San José Iturbide Zumar foto 1">
+                <img src="zumar.jpg" alt="San José Iturbide Zumar foto 2">
+                <img src="sji_zumar_foto3.jpg" alt="San José Iturbide Zumar foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── Tierra Blanca ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">Tierra Blanca</div>
+                <div class="card-estado">Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Tierra+Blanca+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="tb_foto1.jpg" alt="Tierra Blanca foto 1">
+                <img src="tb_foto2.jpg" alt="Tierra Blanca foto 2">
+                <img src="tb_foto3.jpg" alt="Tierra Blanca foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── San Miguel de Allende ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">San Miguel de Allende</div>
+                <div class="card-estado">Centro · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=San+Miguel+de+Allende+Centro+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="sma_foto1.jpg" alt="San Miguel de Allende foto 1">
+                <img src="sma_foto2.jpg" alt="San Miguel de Allende foto 2">
+                <img src="sma_foto3.jpg" alt="San Miguel de Allende foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── Guanajuato Centro ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">Guanajuato</div>
+                <div class="card-estado">Centro · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Guanajuato+Centro+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="gto_foto1.jpg" alt="Guanajuato foto 1">
+                <img src="gto_foto2.jpg" alt="Guanajuato foto 2">
+                <img src="gto_foto3.jpg" alt="Guanajuato foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── León ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">León</div>
+                <div class="card-estado">Centro · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=León+Centro+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="leon_foto1.jpg" alt="León foto 1">
+                <img src="leon_foto2.jpg" alt="León foto 2">
+                <img src="leon_foto3.jpg" alt="León foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── Victoria ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">Victoria</div>
+                <div class="card-estado">Municipio · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Municipio+de+Victoria+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="vic_foto1.jpg" alt="Victoria foto 1">
+                <img src="vic_foto2.jpg" alt="Victoria foto 2">
+                <img src="vic_foto3.jpg" alt="Victoria foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+    <!-- ── Santa Catarina ── -->
+    <div class="card">
+        <div class="card-left">
+            <div class="card-body">
+                <div class="card-municipio">Santa Catarina</div>
+                <div class="card-estado">Municipio · Guanajuato, México</div>
+                <div class="divider"></div>
+                <div class="info-row">
+                    <span class="info-icon">🥋</span>
+                    <div class="info-text">
+                        <span class="info-label">Instructor</span>
+                        Prof. Joaquín Dorantes Romero — 6to Dan
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">📞</span>
+                    <div class="info-text">
+                        <span class="info-label">Contacto</span>
+                        <a href="tel:+524771234567" style="color:inherit;text-decoration:none;">+52 477 123 4567</a>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="info-icon">🕐</span>
+                    <div class="info-text">
+                        <span class="info-label">Horarios</span>
+                        <table class="horarios-tabla">
+                            <tr><td>Niños</td><td>5:00 – 6:00 pm</td></tr>
+                            <tr><td>Jóvenes y adultos</td><td>6:00 – 7:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <iframe class="card-map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=Santa+Catarina+Guanajuato+Mexico"></iframe>
+        </div>
+        <div class="carrusel" data-index="0">
+            <div class="carrusel-track">
+                <img src="sc_foto1.jpg" alt="Santa Catarina foto 1">
+                <img src="sc_foto2.jpg" alt="Santa Catarina foto 2">
+                <img src="sc_foto3.jpg" alt="Santa Catarina foto 3">
+            </div>
+            <button class="carrusel-btn prev" onclick="mover(this,-1)">&#8249;</button>
+            <button class="carrusel-btn next" onclick="mover(this,1)">&#8250;</button>
+            <div class="carrusel-dots"></div>
+        </div>
+    </div>
+
+</div>
+
+<footer><p>Asociación Deportiva Taekwondo Dorantes · México</p></footer>
+
+<script>
+    // Inicializar puntos de cada carrusel
+    document.querySelectorAll('.carrusel').forEach(car => {
+        const imgs = car.querySelectorAll('.carrusel-track img');
+        const dots = car.querySelector('.carrusel-dots');
+        imgs.forEach((_, i) => {
+            const d = document.createElement('span');
+            if(i === 0) d.classList.add('activo');
+            d.onclick = () => irA(car, i);
+            dots.appendChild(d);
+        });
+    });
+
+    function mover(btn, dir) {
+        const car = btn.closest('.carrusel');
+        const total = car.querySelectorAll('.carrusel-track img').length;
+        let idx = parseInt(car.dataset.index) + dir;
+        if(idx < 0) idx = total - 1;
+        if(idx >= total) idx = 0;
+        irA(car, idx);
+    }
+
+    function irA(car, idx) {
+        car.dataset.index = idx;
+        car.querySelector('.carrusel-track').style.transform = `translateX(-${idx * 100}%)`;
+        car.querySelectorAll('.carrusel-dots span').forEach((d, i) => {
+            d.classList.toggle('activo', i === idx);
+        });
+    }
+</script>
+</body>
+</html>
