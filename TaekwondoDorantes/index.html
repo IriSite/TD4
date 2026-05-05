@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taekwondo Dorantes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul:      #1b2f6e;
+            --azul-dark: #111e47;
+            --rojo:      #cc1a1a;
+            --negro:     #111111;
+            --gris:      #f2f2f2;
+            --gris-borde:#ddd;
+            --gris-medio:#555;
+            --fondo:     #f2f2f2;
+            --blanco:    #ffffff;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body { font-family:'Source Sans 3',sans-serif; background:var(--fondo); color:var(--negro); }
+
+        /* ── NAV ── */
+        nav { background:var(--negro); position:sticky; top:0; z-index:200; border-bottom:3px solid var(--rojo); }
+        nav ul { list-style:none; display:flex; justify-content:center; flex-wrap:wrap; }
+        nav a { display:block; text-decoration:none; color:rgba(255,255,255,0.78); font-family:'Teko',sans-serif; font-size:1.05rem; letter-spacing:1.8px; text-transform:uppercase; padding:15px 20px; border-right:1px solid rgba(255,255,255,0.07); transition:background 0.2s,color 0.2s; }
+        nav li:first-child a { border-left:1px solid rgba(255,255,255,0.07); }
+        nav a:hover { background:var(--rojo); color:var(--blanco); }
+
+        /* ── HEADER ── */
+        header { background:var(--azul-dark); text-align:center; padding:52px 20px 44px; position:relative; overflow:hidden; }
+        header::before { content:''; position:absolute; top:-60px; right:-80px; width:320px; height:320px; border-radius:50%; background:rgba(204,26,26,0.07); pointer-events:none; }
+        header::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:3px; background:linear-gradient(90deg,var(--azul),var(--rojo),var(--azul)); background-size:300% 100%; animation:barra 5s linear infinite; }
+        @keyframes barra { 0%{background-position:0% 0} 100%{background-position:300% 0} }
+
+        .logo { width:min(380px,88%); margin-bottom:28px; filter:drop-shadow(0 3px 14px rgba(0,0,0,0.5)); animation:entrada 0.85s ease both; }
+        @keyframes entrada { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
+        header h1 { font-family:'Teko',sans-serif; font-size:clamp(1.7rem,4vw,3.2rem); font-weight:700; letter-spacing:4px; color:var(--blanco); text-transform:uppercase; animation:entrada 0.85s 0.12s ease both; }
+        header p { font-size:clamp(0.95rem,2vw,1.05rem); color:rgba(255,255,255,0.62); max-width:680px; margin:14px auto 0; line-height:1.7; animation:entrada 0.85s 0.24s ease both; }
+
+        /* ── BIENVENIDA ── */
+        .bienvenida { text-align:center; padding:clamp(50px,8vw,80px) 24px clamp(50px,8vw,72px); max-width:660px; margin:auto; }
+        .bienvenida h2 { font-family:'Teko',sans-serif; font-size:clamp(1.8rem,4vw,3rem); font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--azul); margin-bottom:14px; opacity:0; transform:translateY(18px); animation:reveal 0.65s 0.15s ease forwards; }
+        .bienvenida > p { font-size:clamp(1rem,2.2vw,1.12rem); color:var(--gris-medio); line-height:1.75; opacity:0; animation:reveal 0.65s 0.3s ease forwards; }
+        @keyframes reveal { to{opacity:1;transform:translateY(0)} }
+
+        /* ── SEPARADOR ── */
+        .sep { height:3px; background:linear-gradient(90deg,var(--azul-dark),var(--rojo),var(--azul-dark)); }
+
+        /* ── VENTAJAS ── */
+        .ventajas { background:var(--blanco); padding:70px 24px; }
+        .seccion-titulo { font-family:'Teko',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--azul); text-align:center; margin-bottom:48px; }
+        .seccion-titulo span { color:var(--rojo); }
+
+        .ventajas-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:24px; max-width:1000px; margin:auto; }
+        .ventaja-item { background:var(--gris); border-top:4px solid var(--azul); padding:28px 22px; border-radius:2px; transition:transform 0.2s,box-shadow 0.2s; }
+        .ventaja-item:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+        .ventaja-item:nth-child(2), .ventaja-item:nth-child(4) { border-top-color:var(--rojo); }
+        .ventaja-icono { font-size:2rem; margin-bottom:12px; display:block; }
+        .ventaja-item h3 { font-family:'Teko',sans-serif; font-size:1.3rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--azul); margin-bottom:8px; }
+        .ventaja-item p { font-size:0.95rem; color:var(--gris-medio); line-height:1.65; }
+
+        /* ── FOTO BANNER ALUMNOS ── */
+        .alumnos { position:relative; overflow:hidden; }
+        .alumnos img { width:100%; height:400px; object-fit:cover; object-position:center 30%; display:block; filter:brightness(0.55); }
+        .alumnos-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; }
+        .alumnos-overlay h2 { font-family:'Teko',sans-serif; font-size:clamp(1.8rem,4.5vw,3.4rem); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--blanco); text-shadow:0 2px 12px rgba(0,0,0,0.5); max-width:800px; line-height:1.15; }
+        .alumnos-overlay p { font-size:1.05rem; color:rgba(255,255,255,0.78); margin-top:12px; letter-spacing:1px; }
+
+        /* ── MAESTROS ── */
+        .maestros { padding:70px 24px; background:var(--gris); }
+        .maestros-bloque { display:grid; grid-template-columns:1fr 1fr; gap:0; max-width:1000px; margin:0 auto 32px; overflow:hidden; box-shadow:0 2px 16px rgba(0,0,0,0.09); border:1px solid var(--gris-borde); }
+        .maestros-bloque.invertido { direction:rtl; }
+        .maestros-bloque.invertido > * { direction:ltr; }
+        .maestros-img { width:100%; height:100%; min-height:280px; object-fit:cover; display:block; }
+        .maestros-texto { background:var(--azul-dark); padding:40px 34px; display:flex; flex-direction:column; justify-content:center; }
+        .maestros-bloque.invertido .maestros-texto { background:var(--negro); }
+        .etiqueta { font-size:0.73rem; letter-spacing:3px; text-transform:uppercase; color:var(--rojo); font-weight:600; margin-bottom:10px; display:block; }
+        .maestros-texto h3 { font-family:'Teko',sans-serif; font-size:clamp(1.5rem,2.5vw,2.1rem); font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blanco); margin-bottom:14px; line-height:1.1; }
+        .maestros-texto p { font-size:0.97rem; color:rgba(255,255,255,0.62); line-height:1.75; }
+
+        /* ── FOOTER ── */
+        footer { background:var(--negro); text-align:center; padding:26px 20px; border-top:3px solid var(--azul); }
+        footer p { font-size:clamp(0.75rem,2vw,0.88rem); color:rgba(255,255,255,0.38); letter-spacing:1.5px; text-transform:uppercase; font-family:'Source Sans 3',sans-serif; }
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:768px){
+            nav ul { justify-content:flex-start; }
+            nav a { font-size:0.92rem; padding:13px 14px; letter-spacing:1px; }
+            header { padding:40px 16px 36px; }
+            .maestros-bloque { grid-template-columns:1fr; }
+            .maestros-bloque.invertido { direction:ltr; }
+            .maestros-img { height:220px; min-height:unset; }
+            .maestros-texto { padding:28px 22px; }
+            .alumnos img { height:300px; }
+        }
+        @media(max-width:480px){
+            nav a { font-size:0.82rem; padding:11px 10px; }
+            .alumnos img { height:240px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <ul>
+            <li><a href="escuelas.html">Nuestras Escuelas</a></li>
+            <li><a href="#">Torneos</a></li>
+            <li><a href="#">Exámenes Kup</a></li>
+            <li><a href="#">Exámenes Cintas Negras</a></li>
+            <li><a href="#">Más eventos</a></li>
+            <li><a href="#">Conócenos</a></li>
+        </ul>
+    </nav>
+
+    <!-- HEADER -->
+    <header>
+        <img src="Logo.jpg" alt="Logo Taekwondo Dorantes" class="logo">
+        <h1>Asociación Deportiva Taekwondo Dorantes</h1>
+        <p>
+            Es una institución legalmente constituida en México, dedicada a la enseñanza del taekwondo,
+            formación deportiva y desarrollo integral de sus alumnos.
+        </p>
+    </header>
+
+    <!-- BIENVENIDA -->
+    <section class="bienvenida">
+        <h2>Bienvenido a nuestra asociación</h2>
+        <p>La Asociación Deportiva Taekwondo Dorantes es una institución comprometida con la formación integral de sus alumnos a través de la enseñanza del taekwondo en Guanajuato, fomentando valores como la disciplina, el respeto, la perseverancia y el trabajo en equipo. Contamos con escuelas afiliadas y certificadas por la FMTKD, lo que garantiza una preparación de calidad, avalada por estándares oficiales y un alto nivel de enseñanza deportiva. Nuestra asociación impulsa el crecimiento físico, mental y competitivo de cada estudiante, formando no solo atletas destacados, sino también personas con liderazgo y compromiso. ¡No te pierdas la oportunidad de crecer con nosotros y formar parte de una comunidad dedicada al éxito y la superación!</p>
+    </section>
+
+    <div class="sep"></div>
+
+    <!-- VENTAJAS -->
+    <section class="ventajas">
+        <h2 class="seccion-titulo">¿Por qué elegir <span>Taekwondo Dorantes?</span></h2>
+        <div class="ventajas-grid">
+            <div class="ventaja-item">
+                <span class="ventaja-icono">🏅</span>
+                <h3>Certificación FMTKD</h3>
+                <p>Escuelas afiliadas y certificadas por la Federación Mexicana de Taekwondo, con estándares oficiales de enseñanza.</p>
+            </div>
+            <div class="ventaja-item">
+                <span class="ventaja-icono">👨‍👩‍👧‍👦</span>
+                <h3>Para todas las edades</h3>
+                <p>Clases especializadas para niños, jóvenes y adultos con grupos y horarios adaptados a cada etapa.</p>
+            </div>
+            <div class="ventaja-item">
+                <span class="ventaja-icono">📍</span>
+                <h3>14 sedes en Guanajuato</h3>
+                <p>Presencia en San José Iturbide, León, Guanajuato, San Miguel de Allende y más municipios del estado.</p>
+            </div>
+            <div class="ventaja-item">
+                <span class="ventaja-icono">🌱</span>
+                <h3>Formación integral</h3>
+                <p>Más allá del deporte: disciplina, liderazgo, respeto y valores que acompañan a nuestros alumnos toda la vida.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="sep"></div>
+
+    <!-- FOTO BANNER ALUMNOS -->
+    <div class="alumnos">
+        <img src="alumnos.jpg" alt="Alumnos en clase de Taekwondo Dorantes">
+        <div class="alumnos-overlay">
+            <h2>Formando atletas destacados y personas con liderazgo y compromiso</h2>
+            <p>Forma disciplina, fuerza y liderazgo a través del Taekwondo.</p>
+        </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- MAESTROS -->
+    <section class="maestros">
+        <h2 class="seccion-titulo">Nuestros <span>Maestros</span></h2>
+
+        <div class="maestros-bloque">
+            <img class="maestros-img" src="Maestros.jpg" alt="Cuerpo de maestros Taekwondo Dorantes">
+            <div class="maestros-texto">
+                <span class="etiqueta">Cuerpo docente</span>
+                <h3>Instructores certificados y comprometidos</h3>
+                <p>Nuestra asociación cuenta con un equipo de maestros certificados por la FMTKD, con años de experiencia formando atletas y personas íntegras en Guanajuato. Cada instructor es un ejemplo de disciplina, respeto y superación dentro y fuera del tatami.</p>
+            </div>
+        </div>
+
+        <div class="maestros-bloque invertido">
+            <img class="maestros-img" src="Federacion_Mexicana.jpg" alt="Maestros en el tatami">
+            <div class="maestros-texto">
+                <span class="etiqueta">Liderazgo en el tatami</span>
+                <h3>Entrenamiento de alto nivel</h3>
+                <p>Nuestros instructores se preparan y actualizan constantemente para ofrecer una enseñanza de calidad. El Prof. Joaquín Dorantes Romero, 6to Dan, lidera el cuerpo docente con más de dos décadas de trayectoria en el taekwondo mexicano.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Asociación Deportiva Taekwondo Dorantes · México</p>
+    </footer>
+
+</body>
+</html>
