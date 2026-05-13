@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exámenes Kup · Taekwondo Dorantes</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --azul: #1b2f6e;
+  --azul-dark: #111e47;
+  --rojo: #cc1a1a;
+  --negro: #111111;
+  --gris: #f2f2f2;
+  --gris-borde: #ddd;
+  --blanco: #ffffff;
+  --texto: #333;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Source Sans 3',sans-serif; background:var(--gris); color:var(--texto); }
+
+/* NAV */
+nav { background:var(--negro); position:sticky; top:0; z-index:200; border-bottom:3px solid var(--rojo); }
+nav ul { list-style:none; display:flex; justify-content:center; flex-wrap:wrap; }
+nav a { display:block; text-decoration:none; color:rgba(255,255,255,0.78); font-family:'Teko',sans-serif; font-size:1.05rem; letter-spacing:1.8px; text-transform:uppercase; padding:15px 20px; border-right:1px solid rgba(255,255,255,0.07); transition:background 0.2s,color 0.2s; }
+nav li:first-child a { border-left:1px solid rgba(255,255,255,0.07); }
+nav li:nth-child(3) a { background:var(--rojo); color:var(--blanco); }
+nav a:hover { background:var(--rojo); color:var(--blanco); }
+
+/* HERO */
+.page-hero { background:var(--azul-dark); text-align:center; padding:48px 20px 40px; position:relative; overflow:hidden; }
+.page-hero::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:3px; background:linear-gradient(90deg,var(--azul),var(--rojo),var(--azul)); background-size:300% 100%; animation:barra 5s linear infinite; }
+@keyframes barra { 0%{background-position:0% 0} 100%{background-position:300% 0} }
+.breadcrumb { font-size:0.82rem; color:rgba(255,255,255,0.4); margin-bottom:12px; letter-spacing:1px; }
+.breadcrumb a { color:rgba(255,255,255,0.55); text-decoration:none; }
+.breadcrumb a:hover { color:var(--blanco); }
+.page-hero h1 { font-family:'Teko',sans-serif; font-size:clamp(2rem,5vw,3.4rem); font-weight:700; letter-spacing:4px; color:var(--blanco); text-transform:uppercase; }
+.page-hero p { font-size:1rem; color:rgba(255,255,255,0.5); margin-top:10px; letter-spacing:1px; }
+
+/* SECCIÓN */
+.seccion { max-width:960px; margin:48px auto 0; padding:0 24px; }
+.seccion-titulo { font-family:'Teko',sans-serif; font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--azul); margin-bottom:6px; display:flex; align-items:center; gap:12px; }
+.seccion-titulo::after { content:''; flex:1; height:3px; background:linear-gradient(90deg,var(--rojo),transparent); border-radius:2px; }
+.seccion-titulo span { color:var(--rojo); }
+.seccion-sub { font-size:0.85rem; color:#999; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:28px; }
+
+/* SEPARADOR */
+.sep { height:3px; background:linear-gradient(90deg,var(--azul-dark),var(--rojo),var(--azul-dark)); margin:52px 0 0; }
+.sep2 { max-width:960px; margin:0 auto; padding:0 24px; }
+.sep2-linea { height:3px; background:linear-gradient(90deg,var(--azul-dark),var(--rojo),var(--azul-dark)); border-radius:2px; }
+
+/* BLOQUE INTRO */
+.intro-bloque { max-width:960px; margin:0 auto; padding:48px 24px; }
+.intro-inner { background:var(--blanco); border-left:5px solid var(--rojo); border-radius:3px; padding:32px 36px; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.intro-inner h2 { font-family:'Teko',sans-serif; font-size:clamp(1.4rem,3vw,2rem); font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--azul); margin-bottom:14px; }
+.intro-inner p { font-size:1rem; color:#555; line-height:1.8; margin-bottom:12px; }
+.intro-inner p:last-child { margin-bottom:0; }
+
+/* CINTAS */
+.cintas-seccion { max-width:960px; margin:0 auto; padding:0 24px 48px; }
+.cintas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; margin-top:28px; }
+.cinta-item { background:var(--blanco); border-radius:3px; border:1px solid var(--gris-borde); padding:16px 12px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.05); transition:transform 0.2s, box-shadow 0.2s; }
+.cinta-item:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.1); }
+.cinta-barra { height:8px; border-radius:4px; margin:0 auto 10px; width:70%; }
+.cinta-nombre { font-family:'Teko',sans-serif; font-size:1rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--azul); }
+.cinta-kup { font-size:0.75rem; color:#999; margin-top:3px; }
+
+/* EVALUACIÓN */
+.eval-seccion { max-width:960px; margin:0 auto; padding:0 24px 48px; }
+.eval-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-top:28px; }
+.eval-item { background:var(--blanco); border-top:4px solid var(--azul); border-radius:3px; padding:22px 18px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.eval-item:nth-child(even) { border-top-color:var(--rojo); }
+.eval-icono { font-size:1.8rem; margin-bottom:10px; display:block; }
+.eval-item h3 { font-family:'Teko',sans-serif; font-size:1.1rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--azul); margin-bottom:6px; }
+.eval-item p { font-size:0.9rem; color:#666; line-height:1.6; }
+
+/* GALERÍA FOTOS */
+.galeria-seccion { max-width:960px; margin:0 auto; padding:0 24px 48px; }
+.mosaico { columns:3; column-gap:10px; margin-top:28px; }
+.mosaico-item { break-inside:avoid; margin-bottom:10px; overflow:hidden; border-radius:3px; background:var(--gris); cursor:pointer; }
+.mosaico-item img { width:100%; height:auto; display:block; transition:transform 0.35s ease, filter 0.35s ease; filter:brightness(0.95); }
+.mosaico-item:hover img { transform:scale(1.06); filter:brightness(1); }
+
+/* VIDEOS */
+.videos-seccion { max-width:960px; margin:0 auto; padding:0 24px 64px; }
+.videos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-top:28px; }
+.video-item { background:var(--negro); border-radius:3px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.12); }
+.video-item video { width:100%; display:block; max-height:220px; object-fit:cover; }
+.video-label { font-family:'Teko',sans-serif; font-size:1rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.7); padding:10px 14px; }
+
+/* LIGHTBOX */
+.lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; padding:20px; }
+.lightbox.abierto { display:flex; }
+.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:3px; }
+.lightbox-cerrar { position:absolute; top:16px; right:20px; color:#fff; font-size:2rem; cursor:pointer; background:none; border:none; opacity:0.7; transition:opacity 0.2s; }
+.lightbox-cerrar:hover { opacity:1; color:var(--rojo); }
+.lightbox-prev, .lightbox-next { position:absolute; top:50%; transform:translateY(-50%); color:#fff; font-size:2.5rem; cursor:pointer; background:rgba(255,255,255,0.08); border:none; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+.lightbox-prev:hover, .lightbox-next:hover { background:var(--rojo); }
+.lightbox-prev { left:16px; }
+.lightbox-next { right:16px; }
+.lightbox-contador { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.5); font-family:'Teko',sans-serif; font-size:1.1rem; letter-spacing:2px; }
+
+/* FOOTER */
+footer { background:var(--negro); text-align:center; padding:26px 20px; border-top:3px solid var(--azul); }
+footer p { font-size:0.85rem; color:rgba(255,255,255,0.35); letter-spacing:1.5px; text-transform:uppercase; }
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  nav a { font-size:0.88rem; padding:12px 12px; }
+  .seccion, .intro-bloque, .cintas-seccion, .eval-seccion, .galeria-seccion, .videos-seccion, .sep2 { padding-left:14px; padding-right:14px; }
+  .intro-inner { padding:24px 18px; }
+  .mosaico { columns:2; }
+  .videos-grid { grid-template-columns:1fr; }
+}
+@media(max-width:480px){
+  nav a { font-size:0.8rem; padding:10px 9px; }
+  .cintas-grid { grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); }
+}
+</style>
+</head>
+<body>
+
+<nav>
+<ul>
+<li><a href="escuelas.html">Nuestras Escuelas</a></li>
+<li><a href="torneos.html">Torneos</a></li>
+<li><a href="exameneskup.html">Exámenes Kup</a></li>
+<li><a href="#">Exámenes Cintas Negras</a></li>
+<li><a href="#">Más eventos</a></li>
+<li><a href="index.html">Inicio</a></li>
+</ul>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <p class="breadcrumb"><a href="index.html">Inicio</a> &rsaquo; Exámenes Kup</p>
+  <h1>Exámenes Kup</h1>
+  <p>El camino hacia la cinta negra comienza con cada examen</p>
+</div>
+
+<!-- INTRO -->
+<div class="intro-bloque">
+  <div class="intro-inner">
+    <h2>¿Qué es un Examen Kup?</h2>
+    <p>Los Exámenes Kup son la oportunidad que tienen nuestros alumnos de demostrar su avance y subir de grado cada 3 meses. A través de estos exámenes, cada estudiante muestra el esfuerzo, la disciplina y lo aprendido durante ese periodo de entrenamiento.</p>
+    <p>No todos los alumnos participan automáticamente: son los maestros quienes evalúan si cada alumno está listo y les dan la autorización para presentar el examen. Esto garantiza que cada ascenso de cinta sea genuino y merecido.</p>
+    <p>En cada examen, los alumnos son evaluados por un Sabonim, quien califica su desempeño en las distintas categorías de evaluación. La cinta negra, el grado más alto, se otorga únicamente en una fecha especial y representa años de dedicación y superación.</p>
+  </div>
+</div>
+
+<div class="sep2"><div class="sep2-linea"></div></div>
+
+<!-- CINTAS -->
+<div class="cintas-seccion" style="padding-top:48px;">
+  <div class="seccion-titulo">Grados <span>por Cinta</span></div>
+  <p class="seccion-sub">Progresión de grados en Taekwondo Dorantes</p>
+  <div class="cintas-grid">
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#ffffff;border:1px solid #ddd;"></div>
+      <div class="cinta-nombre">Blanca</div>
+      <div class="cinta-kup">Se entrega con el uniforme</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#f97316;"></div>
+      <div class="cinta-nombre">Naranja</div>
+      <div class="cinta-kup">9° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#fb923c;border:2px solid #ea6a0a;"></div>
+      <div class="cinta-nombre">Naranja Avanzada</div>
+      <div class="cinta-kup">8° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#facc15;"></div>
+      <div class="cinta-nombre">Amarilla</div>
+      <div class="cinta-kup">7° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#eab308;border:2px solid #ca8a04;"></div>
+      <div class="cinta-nombre">Amarilla Avanzada</div>
+      <div class="cinta-kup">6° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#22c55e;"></div>
+      <div class="cinta-nombre">Verde</div>
+      <div class="cinta-kup">5° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#16a34a;border:2px solid #15803d;"></div>
+      <div class="cinta-nombre">Verde Avanzada</div>
+      <div class="cinta-kup">4° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#3b82f6;"></div>
+      <div class="cinta-nombre">Azul</div>
+      <div class="cinta-kup">3° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#1d4ed8;border:2px solid #1e40af;"></div>
+      <div class="cinta-nombre">Azul Avanzada</div>
+      <div class="cinta-kup">2° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#ef4444;"></div>
+      <div class="cinta-nombre">Roja</div>
+      <div class="cinta-kup">1° Kup</div>
+    </div>
+    <div class="cinta-item">
+      <div class="cinta-barra" style="background:#cc1a1a;border:2px solid #991b1b;"></div>
+      <div class="cinta-nombre">Roja Avanzada</div>
+      <div class="cinta-kup">1° Kup Avanzado</div>
+    </div>
+    <div class="cinta-item" style="border-color:#111;">
+      <div class="cinta-barra" style="background:#111111;"></div>
+      <div class="cinta-nombre">Negra</div>
+      <div class="cinta-kup">1° Dan · Fecha especial</div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- EVALUACIÓN -->
+<div class="eval-seccion" style="padding-top:48px;">
+  <div class="seccion-titulo">Criterios de <span>Evaluación</span></div>
+  <p class="seccion-sub">Lo que evalúa el Sabonim en cada examen</p>
+  <div class="eval-grid">
+    <div class="eval-item">
+      <span class="eval-icono">💪</span>
+      <h3>Resistencia</h3>
+      <p>El alumno demuestra condición física y capacidad de mantener el esfuerzo durante todo el examen.</p>
+    </div>
+    <div class="eval-item">
+      <span class="eval-icono">🦵</span>
+      <h3>Habilidad en el Pateo</h3>
+      <p>Técnica, altura, velocidad y precisión en las patadas correspondientes al grado que se examina.</p>
+    </div>
+    <div class="eval-item">
+      <span class="eval-icono">🧘</span>
+      <h3>Disciplina</h3>
+      <p>Actitud, respeto hacia los maestros y compañeros, y comportamiento durante el examen.</p>
+    </div>
+    <div class="eval-item">
+      <span class="eval-icono">📋</span>
+      <h3>Formas (Poomsae)</h3>
+      <p>Ejecución correcta de las formas correspondientes al grado que aspira el alumno.</p>
+    </div>
+    <div class="eval-item">
+      <span class="eval-icono">🥊</span>
+      <h3>Combate</h3>
+      <p>A partir de cinta verde, el alumno demuestra aplicación técnica en situación de combate.</p>
+    </div>
+    <div class="eval-item">
+      <span class="eval-icono">🧱</span>
+      <h3>Rompimiento</h3>
+      <p>A partir de cinta verde, se evalúa la potencia y técnica en el rompimiento de tablas.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sep2" style="margin-bottom:0;"><div class="sep2-linea"></div></div>
+
+<!-- FOTOS -->
+<div class="galeria-seccion" style="padding-top:48px;">
+  <div class="seccion-titulo">Fotos de <span>Exámenes</span></div>
+  <p class="seccion-sub">Momentos de esfuerzo y superación</p>
+  <!-- Agrega o quita .mosaico-item según tus fotos -->
+  <div class="mosaico" id="mosaico">
+    <div class="mosaico-item"><img src="examenkup1.jpg" alt="Examen Kup foto 1" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup2.jpg" alt="Examen Kup foto 2" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup3.jpg" alt="Examen Kup foto 3" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup4.jpg" alt="Examen Kup foto 4" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup5.jpg" alt="Examen Kup foto 5" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup6.jpg" alt="Examen Kup foto 6" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup7.jpg" alt="Examen Kup foto 7" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup8.jpg" alt="Examen Kup foto 8" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup9.jpg" alt="Examen Kup foto 9" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup10.jpg" alt="Examen Kup foto 10" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup11.jpg" alt="Examen Kup foto 11" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup12.jpg" alt="Examen Kup foto 12" loading="lazy"></div>
+    <div class="mosaico-item"><img src="examenkup13.jpg" alt="Examen Kup foto 13" loading="lazy"></div>
+  </div>
+</div>
+
+<div class="sep2"><div class="sep2-linea"></div></div>
+
+<!-- VIDEOS -->
+<div class="videos-seccion" style="padding-top:48px;">
+  <div class="seccion-titulo">Videos de <span>Exámenes</span></div>
+  <p class="seccion-sub">Revive los mejores momentos</p>
+  <!-- Cambia los src por los nombres de tus archivos de video -->
+  <div class="videos-grid">
+    <div class="video-item">
+      <video controls preload="none" poster="kup_video1_thumb.jpg">
+        <source src="kup_video1.mp4" type="video/mp4">
+      </video>
+      <div class="video-label">Examen Kup · Video 1</div>
+    </div>
+    <div class="video-item">
+      <video controls preload="none" poster="kup_video2_thumb.jpg">
+        <source src="kup_video2.mp4" type="video/mp4">
+      </video>
+      <div class="video-label">Examen Kup · Video 2</div>
+    </div>
+    <div class="video-item">
+      <video controls preload="none" poster="kup_video3_thumb.jpg">
+        <source src="kup_video3.mp4" type="video/mp4">
+      </video>
+      <div class="video-label">Examen Kup · Video 3</div>
+    </div>
+    <div class="video-item">
+      <video controls preload="none" poster="kup_video4_thumb.jpg">
+        <source src="kup_video4.mp4" type="video/mp4">
+      </video>
+      <div class="video-label">Examen Kup · Video 4</div>
+    </div>
+    <div class="video-item">
+      <video controls preload="none" poster="kup_video5_thumb.jpg">
+        <source src="kup_video5.mp4" type="video/mp4">
+      </video>
+      <div class="video-label">Examen Kup · Video 5</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-cerrar" onclick="cerrarLightbox()">✕</button>
+  <button class="lightbox-prev" onclick="lightboxNav(-1)">&#8249;</button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" onclick="lightboxNav(1)">&#8250;</button>
+  <div class="lightbox-contador" id="lightbox-contador"></div>
+</div>
+
+<footer><p>Asociación Deportiva Taekwondo Dorantes · México</p></footer>
+
+<script>
+// Lightbox fotos
+let lightboxFotos = [];
+let lightboxIdx = 0;
+document.querySelectorAll('.mosaico-item').forEach((item, i) => {
+  const img = item.querySelector('img');
+  lightboxFotos.push(img.src);
+  item.onclick = () => abrirLightbox(i);
+});
+function abrirLightbox(i) {
+  lightboxIdx = i;
+  document.getElementById('lightbox-img').src = lightboxFotos[i];
+  document.getElementById('lightbox-contador').textContent = (i+1) + ' / ' + lightboxFotos.length;
+  document.getElementById('lightbox').classList.add('abierto');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarLightbox() {
+  document.getElementById('lightbox').classList.remove('abierto');
+  document.body.style.overflow = '';
+}
+function lightboxNav(dir) {
+  lightboxIdx = (lightboxIdx + dir + lightboxFotos.length) % lightboxFotos.length;
+  document.getElementById('lightbox-img').src = lightboxFotos[lightboxIdx];
+  document.getElementById('lightbox-contador').textContent = (lightboxIdx+1) + ' / ' + lightboxFotos.length;
+}
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if(e.target === this) cerrarLightbox();
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') cerrarLightbox();
+  if(e.key === 'ArrowRight') lightboxNav(1);
+  if(e.key === 'ArrowLeft') lightboxNav(-1);
+});
+</script>
+</body>
+</html>
